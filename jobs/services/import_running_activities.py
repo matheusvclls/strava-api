@@ -24,6 +24,9 @@ for page in range(1,4):
     # Check if the request has records
     if get_strava_activities == []:
         break
+
+    Session = sessionmaker(bind=engine)
+    session = Session()
     
     # Iterate in the list of records
     for record in get_strava_activities:
@@ -37,10 +40,10 @@ for page in range(1,4):
             dict_record['name']=record['name']
             dict_record['distance']=record['distance']
             dict_record['average_speed']=record['average_speed']
-            dict_record['average_heartrate']=record['average_heartrate']
-
-            Session = sessionmaker(bind=engine)
-            session = Session()
+            if record['has_heartrate'] == True:
+                dict_record['average_heartrate']=record['average_heartrate']
+            else:
+                dict_record['average_heartrate']=None
 
             db_user = get_strava_activity(db=session, activity_id=dict_record['id'])
 
@@ -48,8 +51,5 @@ for page in range(1,4):
             if db_user is None:
                 # Create this record using this ID
                 create_activity(db=session, activity=dict_record)
-
             else:
                 pass
-
-            
