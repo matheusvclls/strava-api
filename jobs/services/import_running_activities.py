@@ -2,9 +2,9 @@ import os
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'client_strava'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'models'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'schemas'))
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'db'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../shared/', 'models'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../shared/', 'schemas'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../shared/', 'db'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'crud'))
 
 from sqlalchemy.ext.declarative import declarative_base

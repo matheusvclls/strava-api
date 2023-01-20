@@ -8,11 +8,21 @@ class ActivityBase(BaseModel):
     name: str
     distance: float
     average_speed: float
-    average_heartrate: float
+    average_heartrate: Optional[float]
 
 
 class ActivityCreate(ActivityBase):
     ...
+
+class ActivityUpdate(BaseModel):
+    name: Optional[str]
+    distance: Optional[float]
+    average_speed: Optional[float]
+    average_heartrate: Optional[float]
+
+    class Config:
+        orm_mode = True
+
 
 
 class Activity(ActivityBase):
