@@ -1,34 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
-
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+  
+    useEffect(() => {
+      async function fetchData() {
+        setIsLoading(true);
+        try {
+          const response = await axios.get("http://localhost:8000/activities?skip=0&limit=2", { timeout: 5000 });
+          setData(response.data);
+        } catch (error) {
+          if(error.code === 'ECONNABORTED'){
+            setError('The request took too long to complete, please try again later.')
+          }
+          else{
+            setError(error);
+          }
+        } finally {
+          setIsLoading(false);
+        }        
+      }
+      fetchData();
+    }, []);
+  
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
+  
+    if (error) {
+      return <p>Error: {error.message}</p>;
+    }
+  
+    if (!data) {
+      return null;
+    }
+  
+    return <p>Data: {JSON.stringify(data)}</p>;
+  }
+    
 export default App
