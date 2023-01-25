@@ -12,7 +12,7 @@ function App() {
       async function fetchData() {
         setIsLoading(true);
         try {
-          const response = await axios.get("http://localhost:8000/activities?skip=0&limit=2", { timeout: 5000 });
+          const response = await axios.get("http://localhost:8000/activities?skip=0&limit=5", { timeout: 5000 });
           setData(response.data);
         } catch (error) {
           if(error.code === 'ECONNABORTED'){
