@@ -40,7 +40,17 @@ function App() {
       return null;
     }
   
-    return <p>Data: {JSON.stringify(data)}</p>;
+    return (<div className="App">
+      <ul>
+        {data.map(activity => (
+          <li>
+            <p>id: {activity.id}</p>
+            <p>name: {activity.name}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+    );
   }
     
 export default App
