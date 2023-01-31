@@ -3,3 +3,4 @@ venv
 .env
 sql_app.db
 node_modules
+notes.md
