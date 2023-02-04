@@ -17,7 +17,8 @@ from activity_crud import get_strava_activity, create_activity
 
 activity_models.Base.metadata.create_all(bind=engine)
 
-for page in range(1,4):
+for page in range(1,100):
+
     strava_requests = client_strava_file.StravaClient()
     get_strava_activities = strava_requests.get_activities(page=page).json()
     
@@ -30,11 +31,12 @@ for page in range(1,4):
     
     # Iterate in the list of records
     for record in get_strava_activities:
-        
-        # Check if the record is run
-        if record['type'] == 'Run':
-            dict_record = {}
 
+        # Check if the record is run
+        if record['type'] in ['Run','VirtualRun']:
+            dict_record = {}
+            print(record)
+            print('\n')
             # Get the attributes
             dict_record['id']=record['id']
             dict_record['name']=record['name']
@@ -44,6 +46,7 @@ for page in range(1,4):
                 dict_record['average_heartrate']=record['average_heartrate']
             else:
                 dict_record['average_heartrate']=None
+            dict_record['start_date']=record['start_date']
 
             db_user = get_strava_activity(db=session, activity_id=dict_record['id'])
 
