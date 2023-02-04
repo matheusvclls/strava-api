@@ -17,6 +17,10 @@ async def get_activity(db: AsyncSession, activity_id: int):
     result = db.execute(query)
     return result.scalar_one_or_none()
 
+async def get_longest_activity(db:Session):
+    query = select(Activity).order_by(Activity.distance.desc()).limit(1)
+    result = db.execute(query)
+    return result.scalar_one_or_none()
 
 def get_activities(db: Session, skip: int = 0, limit: int = 100):
     return db.query(Activity).offset(skip).limit(limit).all()
@@ -54,3 +58,4 @@ def update_activity_by_id(db:Session,activity_id,activity: ActivityUpdate):
     db.refresh(db_activity)
     db.close()
     return db_activity
+

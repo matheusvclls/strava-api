@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 activity_models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Fast API University",
+    title="Strava API",
     version="0.0.1",
     contact={
         "name": "Matheus Vasconcellos",

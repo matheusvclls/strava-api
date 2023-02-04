@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../shared/', 'schema
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../shared/', 'db'))
 
 from activity_schemas import ActivityCreate, ActivityUpdate, Activity
-from activity_crud import get_activity, create_activity,delete_activity_by_id, update_activity_by_id, get_activities
+from activity_crud import get_activity, create_activity,delete_activity_by_id, update_activity_by_id, get_activities, get_longest_activity
 from db_setup import get_db
 
 router = fastapi.APIRouter()
@@ -59,4 +59,11 @@ async def update_activity(activity_id: int, activity: ActivityUpdate, db: Sessio
     
     db_activity = update_activity_by_id(db=db,activity_id=activity_id, activity=activity)
     
+    return db_activity
+
+@router.get("/metrics/logest_activity")
+async def longest_activity(db: Session = Depends(get_db)):
+    db_activity = await get_longest_activity(db=db)
+    if db_activity is None:
+        raise HTTPException(status_code=404, detail="Table is empty")
     return db_activity
