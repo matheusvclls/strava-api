@@ -32,7 +32,8 @@ def create_activity(db: Session, activity: ActivityCreate):
         name=activity.name,
         distance=activity.distance,
         average_speed=activity.average_speed,
-        average_heartrate=activity.average_heartrate
+        average_heartrate=activity.average_heartrate,
+        start_date=activity.start_date
     )
     db.add(db_activity)
     db.commit()
