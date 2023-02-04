@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import Column, Integer, String, Text, Float,BigInteger
+from sqlalchemy import Column, Integer, String, Text, Float,BigInteger, DateTime
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'db'))
 from db_setup import Base
@@ -14,3 +14,4 @@ class Activity(Base):
     distance = Column(Float, nullable=True)
     average_speed = Column(Float, nullable=True)
     average_heartrate = Column(Float, nullable=True)
+    start_date =  Column(DateTime, nullable=True)

@@ -1,6 +1,7 @@
 from typing import Optional
 
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class ActivityBase(BaseModel):
@@ -9,6 +10,7 @@ class ActivityBase(BaseModel):
     distance: float
     average_speed: float
     average_heartrate: Optional[float]
+    start_date: datetime
 
 
 class ActivityCreate(ActivityBase):
