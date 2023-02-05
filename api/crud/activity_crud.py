@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from datetime import datetime, timedelta
 import sys
 import os
 
@@ -60,3 +61,23 @@ def update_activity_by_id(db:Session,activity_id,activity: ActivityUpdate):
     db.close()
     return db_activity
 
+async def get_activities_from_this_week(db:Session):
+
+    today = datetime.now()
+    
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+    
+    activities = db.query(Activity).filter(
+        Activity.start_date >= start_of_week,
+        Activity.start_date <= end_of_week
+    ).all()
+
+    return activities
+
+async def get_activities_from_this_week_starting_from_monday(db:Session):
+    monday = datetime.today() - timedelta(days=datetime.today().weekday())
+    print(monday)
+    activities = db.query(Activity).filter(Activity.start_date >= monday).all()
+
+    return activities
