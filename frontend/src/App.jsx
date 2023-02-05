@@ -41,14 +41,29 @@ function App() {
     }
   
     return (<div className="App">
-      <ul>
-        {data.map(activity => (
-          <li>
-            <p>id: {activity.id}</p>
-            <p>name: {activity.name}</p>
-          </li>
+      <p>Last 5 activities</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Activity ID</th>
+          <th>Distance</th>
+          <th>Date</th>
+          <th>Average Speed</th>
+          <th>Average Heartrate</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(item => (
+          <tr key={item.id}>
+            <td>{item.id}</td>
+            <td>{item.distance}</td>
+            <td>{item.start_date}</td>
+            <td>{item.average_speed}</td>
+            <td>{item.average_heartrate}</td>
+          </tr>
         ))}
-      </ul>
+      </tbody>
+    </table>
     </div>
     );
   }
