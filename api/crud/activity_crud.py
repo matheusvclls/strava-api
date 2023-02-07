@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+from sqlalchemy.sql import functions
 from datetime import datetime, timedelta
 import sys
 import os
@@ -77,10 +78,16 @@ async def get_activities_from_this_week(db:Session):
 
 async def get_activities_from_this_week_starting_from_monday(db:Session):
     monday = datetime.today() - timedelta(days=datetime.today().weekday())
-    print(monday)
     activities = db.query(Activity).filter(Activity.start_date >= monday).all()
 
     return activities
+
+
+async def get_total_kms_running_this_week(db:Session):
+    monday = datetime.today() - timedelta(days=datetime.today().weekday())
+    activities = db.query(functions.sum(Activity.distance).label("mySum")).filter(Activity.start_date >= monday).first()
+
+    return activities.mySum
 
 async def get_total_running_actitivities(db:Session):
     activities = db.query(Activity).count()
