@@ -81,3 +81,8 @@ async def get_activities_from_this_week_starting_from_monday(db:Session):
     activities = db.query(Activity).filter(Activity.start_date >= monday).all()
 
     return activities
+
+async def get_total_running_actitivities(db:Session):
+    activities = db.query(Activity).count()
+
+    return activities
