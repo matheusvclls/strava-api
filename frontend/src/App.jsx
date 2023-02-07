@@ -34,12 +34,12 @@ function App() {
         const response = await axios.get("http://localhost:8000/metrics/total_kms_running_this_week", { timeout: 5000 });
 
         if (response.data > 0) {
-          setMessage("You ran " + response.data.toFixed(2) + " in this week")
+          setMessage("You ran " + response.data.toFixed(2) + " this week")
 
         }
         else {
 
-          setMessage("You did not run in this week")
+          setMessage("You did not run this week")
         }
         ;
       } catch (error) {
