@@ -12,7 +12,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../shared/', 'schema
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../shared/', 'db'))
 
 from activity_schemas import ActivityCreate, ActivityUpdate, Activity
-from activity_crud import get_activity, create_activity,delete_activity_by_id, update_activity_by_id, get_activities, get_longest_activity,get_activities_from_this_week,get_activities_from_this_week_starting_from_monday, get_total_running_actitivities, get_total_kms_running_this_week,get_last_five_running_actitivities
+from activity_crud import get_activity, create_activity,delete_activity_by_id, update_activity_by_id, get_activities, get_longest_activity,get_activities_from_this_week,get_activities_from_this_week_starting_from_monday, get_total_running_actitivities, get_total_kms_running_this_week,get_last_five_running_actitivities,get_activities_from_current_month,get_activities_from_current_month_count
 from db_setup import get_db
 
 router = fastapi.APIRouter()
@@ -101,6 +101,20 @@ async def total_kms_running_this_week(db: Session = Depends(get_db)):
 @router.get("/metrics/last_five_running_actitivities")
 async def last_five_running_actitivities(db: Session = Depends(get_db)):
     db_activity = await get_last_five_running_actitivities(db=db)
+    if db_activity is None:
+        return 0
+    return db_activity
+
+@router.get("/metrics/activities_from_current_month")
+async def activities_from_current_month(db: Session = Depends(get_db)):
+    db_activity = await get_activities_from_current_month(db=db)
+    if db_activity is None:
+        return 0
+    return db_activity
+
+@router.get("/metrics/activities_from_current_month_count")
+async def activities_from_current_month_count(db: Session = Depends(get_db)):
+    db_activity = await get_activities_from_current_month_count(db=db)
     if db_activity is None:
         return 0
     return db_activity

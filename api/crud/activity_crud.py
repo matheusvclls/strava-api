@@ -87,7 +87,9 @@ async def get_total_kms_running_this_week(db:Session):
     monday = datetime.today() - timedelta(days=datetime.today().weekday())
     activities = db.query(functions.sum(Activity.distance).label("mySum")).filter(Activity.start_date >= monday).first()
 
-    return activities.mySum
+    if activities.mySum:
+        return activities.mySum/1000
+    return activities
 
 async def get_total_running_actitivities(db:Session):
     activities = db.query(Activity).count()
@@ -96,5 +98,35 @@ async def get_total_running_actitivities(db:Session):
 
 async def get_last_five_running_actitivities(db:Session):
     activities = db.query(Activity).order_by(Activity.start_date.desc()).limit(5).all()
+
+    return activities
+
+async def get_activities_from_current_month(db:Session):
+
+    today = datetime.now().date()
+    start_of_month = today.replace(day=1)
+    end_of_month = today.replace(day=28) + timedelta(days=4) 
+    end_of_month = end_of_month - timedelta(days=end_of_month.day)
+
+    activities = db.query(functions.sum(Activity.distance).label("mySum")).filter(
+        Activity.start_date >= start_of_month,
+        Activity.start_date <= end_of_month
+    ).first()
+
+    if activities.mySum:
+        return activities.mySum/1000
+    return activities
+
+async def get_activities_from_current_month_count(db:Session):
+
+    today = datetime.now().date()
+    start_of_month = today.replace(day=1)
+    end_of_month = today.replace(day=28) + timedelta(days=4) 
+    end_of_month = end_of_month - timedelta(days=end_of_month.day)
+
+    activities = db.query(Activity).filter(
+        Activity.start_date >= start_of_month,
+        Activity.start_date <= end_of_month
+    ).count()
 
     return activities
