@@ -98,6 +98,13 @@ function App() {
     return null;
   }
 
+  function kmhr_to_pace(kmhr) {
+    var pace = 60 / kmhr;
+    var minutes = Math.floor(pace);
+    var seconds = Math.floor((pace - minutes) * 60);
+    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+}
+
   return (<div className="App">
 
   <p class="bolded">Strava APP</p>
@@ -110,20 +117,18 @@ function App() {
     <table>
       <thead>
         <tr>
-          <th>Activity ID</th>
-          <th>Distance</th>
           <th>Date</th>
-          <th>Average Speed</th>
+          <th>Distance</th>
+          <th>Pace</th>
           <th>Average Heartrate</th>
         </tr>
       </thead>
       <tbody>
         {data.map(item => (
           <tr key={item.id}>
-            <td>{item.id}</td>
-            <td>{item.distance}</td>
             <td>{item.start_date}</td>
-            <td>{item.average_speed}</td>
+            <td>{(item.distance/1000).toFixed(2)}</td>
+            <td>{kmhr_to_pace(item.average_speed*3.6)}</td>
             <td>{item.average_heartrate}</td>
           </tr>
         ))}
