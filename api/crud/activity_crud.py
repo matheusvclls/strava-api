@@ -93,3 +93,8 @@ async def get_total_running_actitivities(db:Session):
     activities = db.query(Activity).count()
 
     return activities
+
+async def get_last_five_running_actitivities(db:Session):
+    activities = db.query(Activity).order_by(Activity.start_date.desc()).limit(5).all()
+
+    return activities
