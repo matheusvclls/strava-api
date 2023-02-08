@@ -8,12 +8,13 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState(null);
+  const [messageMonth, setMessageMonth] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true);
       try {
-        const response = await axios.get("http://localhost:8000/activities?skip=0&limit=5", { timeout: 5000 });
+        const response = await axios.get("http://localhost:8000/metrics/last_five_running_actitivities", { timeout: 5000 });
         setData(response.data);
       } catch (error) {
         if (error.code === 'ECONNABORTED') {
@@ -55,6 +56,34 @@ function App() {
     }
     getKmsRunning();
 
+    async function getKmsRunningMonth() {
+      setIsLoading(true);
+      try {
+        const responseCount = await axios.get("http://localhost:8000/metrics/activities_from_current_month_count", { timeout: 5000 });
+        const responseDistance = await axios.get("http://localhost:8000/metrics/activities_from_current_month", { timeout: 5000 });
+
+        if (responseCount.data > 0) {
+          setMessageMonth("You have " + responseCount.data+ " running activities. The total distance is: "+responseDistance.data.toFixed(2) + " kms.")
+
+        }
+        else {
+
+          setMessageMonth("You did not run this week")
+        }
+        ;
+      } catch (error) {
+        if (error.code === 'ECONNABORTED') {
+          setError('The request took too long to complete, please try again later.')
+        }
+        else {
+          setError(error);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    getKmsRunningMonth();
+
   }, []);
 
   if (isLoading) {
@@ -70,9 +99,14 @@ function App() {
   }
 
   return (<div className="App">
-    <p>Weekly Report</p>
+
+  <p class="bolded">Strava APP</p>
+
+    <p class="bolded">Monthly Report</p>
+    <p>{messageMonth}</p>
+    <p class="bolded">Weekly Report</p>
     <p>{message}</p>
-    <p>Last 5 activities</p>
+    <p class="bolded">Last 5 activities</p>
     <table>
       <thead>
         <tr>
