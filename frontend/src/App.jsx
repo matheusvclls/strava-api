@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './App.css';
+import StravaIcon from './assets/running-run.svg';
+
 
 function App() {
 
@@ -105,15 +107,33 @@ function App() {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
 
-  return (<div className="App space-y-5">
+  return (
 
-  <p class="bolded">Strava APP</p>
+    
+    
+  <div className="App space-y-4">
 
+<header className="bg-black text-orange-500 p-3 flex justify-between items-center shadow">
+
+<div className="flex items-center space-x-5">
+<img src={StravaIcon} width="36px"></img>
+            <h1 className="text-2xl">Strava App</h1>
+        </div>
+</header>
+
+<div className="space-y-5 bg-neutral-200">
+
+<div className="rounded bg-neutral-100">
     <p class="bolded">Monthly Report</p>
     <p>{messageMonth}</p>
-    <p class="bolded">Weekly Report</p>
+
+    </div>
+    <div className="rounded bg-neutral-100">    
+<p class="bolded">Weekly Report</p>
     <p>{message}</p>
-    <p class="bolded">Last 5 activities</p>
+    </div>
+    <div className="rounded bg-neutral-100">    
+  <p class="bolded">Last 5 activities</p>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100">
         <thead class="text-xs text-neutral-900 uppercase bg-neutral-200 border-b border-neutral-400 dark:text-white">
@@ -136,6 +156,8 @@ function App() {
       </tbody>
     </table>
     </div>
+    </div>
+  </div>
   </div>
   );
 }
