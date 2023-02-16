@@ -105,7 +105,7 @@ function App() {
     return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 }
 
-  return (<div className="App">
+  return (<div className="App space-y-5">
 
   <p class="bolded">Strava APP</p>
 
@@ -114,18 +114,19 @@ function App() {
     <p class="bolded">Weekly Report</p>
     <p>{message}</p>
     <p class="bolded">Last 5 activities</p>
-    <table>
-      <thead>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+        <thead class="text-xs text-neutral-900 uppercase bg-neutral-200 border-b border-neutral-400 dark:text-white">
         <tr>
-          <th>Date</th>
-          <th>Distance</th>
-          <th>Pace</th>
-          <th>Average Heartrate</th>
+          <th class="text-center">Date</th>
+          <th class="text-center">Distance</th>
+          <th class="text-center">Pace</th>
+          <th class="text-center">Average Heartrate</th>
         </tr>
       </thead>
       <tbody>
         {data.map(item => (
-          <tr key={item.id}>
+          <tr key={item.id} class="bg-neutral-100 border-b border-neutral-200 hover:bg-neutral-300 text-neutral-900">
             <td>{item.start_date}</td>
             <td>{(item.distance/1000).toFixed(2)}</td>
             <td>{kmhr_to_pace(item.average_speed*3.6)}</td>
@@ -134,6 +135,7 @@ function App() {
         ))}
       </tbody>
     </table>
+    </div>
   </div>
   );
 }
